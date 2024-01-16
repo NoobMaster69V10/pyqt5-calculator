@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_MainWindow(object):
@@ -150,9 +151,31 @@ class Ui_MainWindow(object):
             self.label.setText(self.label.text() + num)
 
     def results(self):
-        res = eval(self.label.text())
-        self.label.setText(str(res))
-        self.is_equal = True
+        if not self.is_equal:
+            res = eval(self.label.text())
+            self.label.setText(str(res))
+            self.is_equal = True
+        else:
+            error = QMessageBox()
+            error.setWindowTitle("Error Window")
+            error.setText("This action can not be acted")
+            error.setIcon(QMessageBox.Warning)
+            error.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel | QMessageBox.Reset)
+            error.setDefaultButton(QMessageBox.Cancel)
+
+            error.setInformativeText("You can't press equal twice")
+            error.setDetailedText("You pressed equal button twice")
+
+            error.buttonClicked.connect(self.popup_action)
+            error.exec_()
+
+    def popup_action(self, btn):
+        if btn.text() == "OK":
+            print("Ok")
+
+        elif btn.text() == "Reset":
+            self.label.setText("")
+            self.is_equal = False
 
 
 if __name__ == "__main__":
