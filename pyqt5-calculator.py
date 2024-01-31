@@ -102,7 +102,6 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.add_functions()
-
         self.is_equal = False
 
     def retranslateUi(self, MainWindow):
